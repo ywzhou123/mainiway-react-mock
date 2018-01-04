@@ -1,0 +1,203 @@
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
+const Manifest = require('./manifest.json');
+const publicPath = '/';
+const excludes = [
+    path.join(__dirname, 'node_modules'),
+    path.join(__dirname, 'dist')
+];
+
+let config = {
+    entry: {
+        app: path.join(__dirname, 'src/App/entry.js')
+    },
+    output: {
+        publicPath: publicPath,
+        path: path.join(__dirname, 'dist'),
+        filename: 'scripts/[name].[chunkHash:8].js',
+        chunkFilename: 'scripts/[name].[chunkHash:8].bundle.js'
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+    module: {
+        rules: [
+            {
+                test: /.(js|jsx)$/,
+                loader: 'babel-loader',
+                exclude: excludes,
+                query: {
+                    presets: [
+                        ["es2015", { "loose": true }],
+                        "stage-0",
+                        "react"
+                    ],
+                    plugins: [
+                        "transform-runtime",
+                        "transform-decorators-legacy"
+                        // "transform-es2015-shorthand-properties",
+                        // "transform-es3-property-literals",
+                        // "transform-es3-member-expression-literals",
+                    ]
+                }
+            },
+            {
+                test: /\.css$/,
+                exclude: excludes,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: "css-loader",
+                            options: {
+                                modules: true,
+                                importLoaders: 1,
+                                localIdentName: '[local]'
+                            }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                plugins: () => [
+                                    require("autoprefixer")({
+                                        browsers: ['last 2 versions', 'ie >= 9']
+                                    })
+                                ]
+                            }
+                        }
+                    ]
+                })
+            },
+            {
+                test: /\.scss$/,
+                exclude: excludes,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: "css-loader"
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                plugins: () => [
+                                    require("autoprefixer")({
+                                        browsers: ['last 2 versions', 'ie >= 9']
+                                    })
+                                ]
+                            }
+                        },
+                        {
+                            loader: "sass-loader"
+                        }
+                    ]
+                })
+            },
+            {
+                test: /\.less$/,
+                exclude: excludes,
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader'
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                plugins: () => [
+                                    require("autoprefixer")({
+                                        browsers: ['last 2 versions', 'ie >= 9']
+                                    })
+                                ]
+                            }
+                        },
+                        {
+                            loader: 'less-loader'
+                        }
+                    ]
+                })
+            },
+            {
+                test: /\.ejs$/,
+                exclude: excludes,
+                loader: 'ejs-loader'
+            },
+            {
+                test: /\.(png|jpg|gif)$/,
+                exclude: excludes,
+                loader: 'url-loader?name=img/[hash:8].[name].[ext]&limit=8192&outputPath=/'
+            },
+            {
+                test: /\.(woff|woff2|svg|eot|ttf)$/,
+                exclude: excludes,
+                loader: 'url-loader?name=../fonts/[hash:8].[name].[ext]&outputPath=font/'
+            }
+        ]
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'App',
+            filename: 'index.html',
+            inject: 'body',
+            template: path.join(__dirname, 'src/Public/templates/template.html'),
+            minify: {
+                removeComents: true,
+                collapseWhitespace: true,
+            },
+            publicPath,
+            vendorName: Manifest.name
+        }),
+        new CleanWebpackPlugin([
+            'dist/css',
+            'dist/img',
+            'dist/scripts',
+            'dist/*.html',
+            'dist/*.json',
+            'dist/*.js'
+        ]),
+        new ManifestPlugin({
+            fileName: 'manifest.json'
+        }),
+        new CommonsChunkPlugin({
+            names: [
+                'commons',
+                'manifest'
+            ],
+            filename: 'scripts/[name].[hash:8].js',
+            minChunks: 3
+        }),
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./manifest.json')
+        }),
+        new ExtractTextPlugin({
+            filename: "css/[name].css?[hash]-[chunkhash]-[contenthash]-[name]",
+            disable: false,
+            allChunks: true
+        })
+    ]
+};
+
+
+const isDev = process.env.NODE_ENV === 'development';
+const isProd = process.env.NODE_ENV === 'production';
+
+if (isDev) {
+    config.devtool = "source-map";
+}
+if (isProd) {
+    config.plugins.push(new UglifyJSPlugin({
+        sourceMap: true
+    }));
+}
+
+
+module.exports = config;
