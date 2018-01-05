@@ -1,0 +1,33 @@
+.blank {
+    .trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 16px;
+        cursor: pointer;
+        transition: color .3s;
+    }
+    .trigger:hover {
+        color: #108ee9;
+    }
+    .logo {
+        height: 32px;
+        background: #333;
+        border-radius: 6px;
+        margin: 16px;
+        line-height: 32px;
+        text-align: center;
+        color: #fff;
+    }
+    .blank-content {
+        background: #fff;
+        padding: 24px;
+        margin: 0;
+        min-height: 280px;
+        overflow: initial;
+    }
+    .top-icon {
+        margin-right: 10px;
+        font-size: 16px;
+        color: #08c;
+    }
+}

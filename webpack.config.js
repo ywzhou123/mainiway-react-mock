@@ -13,6 +13,7 @@ const excludes = [
     path.join(__dirname, 'node_modules'),
     path.join(__dirname, 'dist')
 ];
+const routeCompRegex = /routes\/([^\/]+\/?[^\/]+).js/
 
 let config = {
     entry: {
@@ -29,16 +30,40 @@ let config = {
     },
     module: {
         rules: [
+            // {
+            //     test: routeCompRegex,
+            //     exclude: excludes,
+            //     loaders: ['bundle-loader?lazy', 'babel-loader']
+            // },
+            {
+                test: /\.bundle\.(js|jsx)$/, // 通过文件名后缀自动处理需要转成bundle的文件
+                include: /src/,
+                exclude: excludes,
+                use: [
+                    {
+                        loader: 'bundle-loader',
+                        options: {
+                            name: 'app-[name]',
+                            lazy: true
+                        }
+                    },
+                    {
+                        loader: 'babel-loader',
+                    }
+                ]
+            },
             {
                 test: /.(js|jsx)$/,
                 loader: 'babel-loader',
+                include: /src/,
+                // exclude: routeCompRegex,
                 exclude: excludes,
                 query: {
-                    presets: [
-                        ["es2015", { "loose": true }],
-                        "stage-0",
-                        "react"
-                    ],
+                    // presets: [
+                    //     ["es2015", { "loose": true }],
+                    //     "stage-0",
+                    //     "react"
+                    // ],
                     plugins: [
                         "transform-runtime",
                         "transform-decorators-legacy"
@@ -179,7 +204,7 @@ let config = {
             manifest: require('./manifest.json')
         }),
         new ExtractTextPlugin({
-            filename: "css/[name].css?[hash]-[chunkhash]-[contenthash]-[name]",
+            filename: "css/[name].[chunkhash:8].css?",
             disable: false,
             allChunks: true
         })
@@ -191,7 +216,7 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 
 if (isDev) {
-    config.devtool = "source-map";
+    config.devtool = "inline-source-map";
 }
 if (isProd) {
     config.plugins.push(new UglifyJSPlugin({

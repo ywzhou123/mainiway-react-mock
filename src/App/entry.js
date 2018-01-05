@@ -1,16 +1,21 @@
 import React from 'react'
-import ReactDom from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { render } from 'react-dom'
+import { BrowserRouter, HashRouter , Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'mobx-react'
-import App from './views/App'
 import AppStore from './stores/AppStore'
+import createHistory from 'history/createBrowserHistory'
+const history = createHistory();
+import BasicLayout from './layouts/BasicLayout'
+import UserLayout from './layouts/UserLayout'
 
-const root = document.getElementById('root');
-ReactDom.render(
-    <Provider store={new AppStore()}>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
+render(
+    <Provider store={AppStore}>
+        <Router history={history}>
+            <Switch>
+                <Route path="/user" render={props => <UserLayout {...props}/>} />
+                <Route path="/" render={props => <BasicLayout {...props} />} />
+            </Switch>
+        </Router>
     </Provider>,
-    root
-);
+    document.getElementById('root')
+)

@@ -1,11 +1,18 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Route, Switch } from 'react-router-dom'
+import AsyncComponent from '../../Public/components/AsyncComponent'
 
-import TopicList from '../views/topic/TopicList'
-import TopicDetail from '../views/topic/TopicDetail'
-
-export default () => [
-    <Route path="/" render={() => <Redirect to="/list" />} exact key="first" />,
-    <Route path="/list" component={TopicList} key="list" />,
-    <Route path="/detail" component={TopicDetail} key="detail" />,
-]
+export default class RootRouter extends Component{
+    render(){
+        return (
+            <Switch>
+                <Route path="/" component={() => <div>welcome</div>} exact/>
+                <Route path="/calendar" component={AsyncComponent(() => import('./Calendar'))} />
+                <Route path="/grades" component={AsyncComponent(() => import('./Grades'))} />
+                <Route path="/messages" component={AsyncComponent(() => import('./Messages'))} />
+                <Route path="/profile" component={AsyncComponent(() => import('./Profile'))} />
+                <Route component={() => <div>no fount</div>} />
+            </Switch>
+        )
+    }    
+}
