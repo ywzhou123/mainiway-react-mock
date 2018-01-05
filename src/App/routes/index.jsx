@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
-import { Route, Switch } from 'react-router-dom'
-import AsyncComponent from '../../Public/components/AsyncComponent'
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import AsyncComponent from '../../Public/components/AsyncComponent';
 
-export default class RootRouter extends Component{
-    render(){
+export default class RootRouter extends React.Component {
+    render() {
         return (
             <Switch>
                 <Route path="/" component={() => <div>welcome</div>} exact/>
@@ -13,6 +13,6 @@ export default class RootRouter extends Component{
                 <Route path="/profile" component={AsyncComponent(() => import('./Profile'))} />
                 <Route component={() => <div>no fount</div>} />
             </Switch>
-        )
-    }    
+        );
+    }
 }

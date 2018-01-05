@@ -1,15 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 class Messages extends React.Component {
-
-  render() {
-    return (
-      <div>
-        <h2>Messages</h2>
-      </div>
-    )
-  }
-
+    render() {
+        return (
+            <div>
+                <h2>Messages</h2>
+            </div>
+        );
+    }
 }
 
-module.exports = Messages
+module.exports = Messages;

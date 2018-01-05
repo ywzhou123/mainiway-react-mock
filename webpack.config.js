@@ -13,7 +13,6 @@ const excludes = [
     path.join(__dirname, 'node_modules'),
     path.join(__dirname, 'dist')
 ];
-const routeCompRegex = /routes\/([^\/]+\/?[^\/]+).js/
 
 let config = {
     entry: {
@@ -30,11 +29,16 @@ let config = {
     },
     module: {
         rules: [
-            // {
-            //     test: routeCompRegex,
-            //     exclude: excludes,
-            //     loaders: ['bundle-loader?lazy', 'babel-loader']
-            // },
+            {
+                enforce: "pre",
+                test: /\.(js|jsx)$/,
+                loader: "eslint-loader",
+                include: /src/,
+                exclude: excludes,
+                options: {
+                    // eslint options (if necessary)
+                }
+            },
             {
                 test: /\.bundle\.(js|jsx)$/, // 通过文件名后缀自动处理需要转成bundle的文件
                 include: /src/,
@@ -56,14 +60,8 @@ let config = {
                 test: /.(js|jsx)$/,
                 loader: 'babel-loader',
                 include: /src/,
-                // exclude: routeCompRegex,
                 exclude: excludes,
                 query: {
-                    // presets: [
-                    //     ["es2015", { "loose": true }],
-                    //     "stage-0",
-                    //     "react"
-                    // ],
                     plugins: [
                         "transform-runtime",
                         "transform-decorators-legacy"
@@ -178,7 +176,8 @@ let config = {
                 collapseWhitespace: true,
             },
             publicPath,
-            vendorName: Manifest.name
+            vendorName: Manifest.name,
+            // chunks: ['webpack-runtime', 'app', 'commons/commons'],
         }),
         new CleanWebpackPlugin([
             'dist/css',
@@ -192,19 +191,20 @@ let config = {
             fileName: 'manifest.json'
         }),
         new CommonsChunkPlugin({
-            names: [
-                'commons',
-                'manifest'
-            ],
-            filename: 'scripts/[name].[hash:8].js',
+            name: 'commons',
+            filename: 'scripts/[name].[chunkhash:8].js',
             minChunks: 3
+        }),
+        new CommonsChunkPlugin({
+            name: 'webpack-runtime',
+            filename: 'scripts/webpack-runtime.[hash:8].js'
         }),
         new webpack.DllReferencePlugin({
             context: __dirname,
             manifest: require('./manifest.json')
         }),
         new ExtractTextPlugin({
-            filename: "css/[name].[chunkhash:8].css?",
+            filename: "css/[name].[contenthash:8].css?",
             disable: false,
             allChunks: true
         })
@@ -221,6 +221,10 @@ if (isDev) {
 if (isProd) {
     config.plugins.push(new UglifyJSPlugin({
         sourceMap: true
+    }));
+    config.plugins.push(new webpack.HashedModuleIdsPlugin());
+    config.plugins.push(new HashOutput({
+        manifestFiles: 'webpack-runtime',
     }));
 }
 

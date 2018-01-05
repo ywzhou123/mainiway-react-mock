@@ -67,6 +67,6 @@ module.exports = {
             path: 'manifest.json',
             name: '[name]_[chunkhash]'
         }),
-        new ExtractTextPlugin('[name]_[chunkhash].css')
+        new ExtractTextPlugin('[name]_[contenthash].css')
     ]
 }

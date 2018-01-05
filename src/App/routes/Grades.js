@@ -1,25 +1,23 @@
-import React from 'react'
+import React from 'react';
 
 class Grades extends React.Component {
+    // shouldComponentUpdate() {
+    //   console.log(this.props.params.cid);
+    //   console.log(this.props.params.cid == 2);
+    //   if (this.props.params.cid == 2)
+    //     return false;  
+    //   return true;
+    // }
 
-  // shouldComponentUpdate() {
-  //   console.log(this.props.params.cid);
-  //   console.log(this.props.params.cid == 2);
-  //   if (this.props.params.cid == 2)
-  //     return false;  
-  //   return true;
-  // }
-
-  render() {
+    render() {
     // console.log("hello i m grades"+this.props.params.cid);
-    return (
-      <div>
-        <h2>Grades</h2>
-        <input />
-      </div>
-    )
-  }
-
+        return (
+            <div>
+                <h2>Grades</h2>
+                <input />
+            </div>
+        );
+    }
 }
 
-module.exports = Grades
+module.exports = Grades;

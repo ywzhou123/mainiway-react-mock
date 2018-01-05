@@ -1,15 +1,15 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { BrowserRouter, HashRouter , Router, Route, Switch } from 'react-router-dom'
-import { Provider } from 'mobx-react'
-import AppStore from './stores/AppStore'
-import createHistory from 'history/createBrowserHistory'
+import React from 'react';
+import { render } from 'react-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import { Provider } from 'mobx-react';
+import AppStore from './stores/AppStore';
+import createHistory from 'history/createBrowserHistory';
+import BasicLayout from './layouts/BasicLayout';
+import UserLayout from './layouts/UserLayout';
 const history = createHistory();
-import BasicLayout from './layouts/BasicLayout'
-import UserLayout from './layouts/UserLayout'
 
 render(
-    <Provider store={AppStore}>
+    <Provider store={new AppStore()}>
         <Router history={history}>
             <Switch>
                 <Route path="/user" render={props => <UserLayout {...props}/>} />
@@ -18,4 +18,4 @@ render(
         </Router>
     </Provider>,
     document.getElementById('root')
-)
+);
