@@ -10,10 +10,15 @@ module.exports = {
     parserOptions: { 
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
-            "jsx": true
+            "jsx": true,
+            "arrowFunctions": true,
+            "classes": true,
+            "modules": true,
+            "templateStrings": true,  
+            "defaultParams": true
         },
         "ecmaVersion": 2017,
-        "sourceType": 'module'
+        "sourceType": 'module',
     },
     globals: {
         // Put things like jQuery, etc
@@ -21,20 +26,27 @@ module.exports = {
         // $: true,
     },
     env: {
-        browser: true,
-        commonjs: true,
-        es6: true
+		"es6": true,
+        "browser": true,
+        "commonjs": true,
+		"node": true
     },
     // required to lint *.vue files
     plugins: [
         'react',
-        'html'
     ],
     // add your custom rules here
     rules: {
+        "prefer-template": 0,
+        "template-curly-spacing": 0,
+        "arrow-body-style": [0],
+        "jsx-a11y/anchor-is-valid": [0],
+        "react/prop-types": 0,
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error",
 		'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-		"no-unused-vars": 0,
-		"react/prop-types": 0,
+        "no-unused-vars": 0,
+        "no-useless-escape": 0,
         "camelcase": 0,
         "no-extra-boolean-cast": 0,
         "space-before-function-paren": ["error", "never"],
@@ -65,6 +77,31 @@ module.exports = {
             'WithStatement',
         ],
         "indent": ["error", 4],
+
+        "linebreak-style": [
+            "error",
+        "unix"
+        ],
+        "no-empty": 0,
+        "no-const-assign": 2,
+        "no-dupe-class-members": 2,
+        "no-duplicate-case": 2,
+        "no-extra-parens": [2, "functions"],
+        "no-self-compare": 2,
+        "accessor-pairs": 2,
+        "comma-spacing": [2, {
+            "before": false,
+            "after": true
+        }],
+        "constructor-super": 2,
+        "new-cap": [2, {
+            "newIsCap": true,
+            "capIsNew": false
+        }],
+        "new-parens": 2,
+        "no-array-constructor": 2,
+        "no-class-assign": 2,
+        "no-cond-assign": 2
         // "no-alert": 0,//禁止使用alert confirm prompt
         // "no-array-constructor": 2,//禁止使用数组构造器
         // "no-bitwise": 0,//禁止使用按位运算符

@@ -10,6 +10,8 @@ const vendors = [
     'react-router-dom',
     'mobx',
     'mobx-react',
+    'query-string',
+    'prop-types',
     'antd',
     'antd/dist/antd.min.css'
 ];
@@ -67,6 +69,6 @@ module.exports = {
             path: 'manifest.json',
             name: '[name]_[chunkhash]'
         }),
-        new ExtractTextPlugin('[name]_[contenthash].css')
+        new ExtractTextPlugin('[name]_[chunkhash].css')
     ]
 }

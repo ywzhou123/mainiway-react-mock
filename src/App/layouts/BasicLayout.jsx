@@ -7,7 +7,7 @@ import { observer, inject } from 'mobx-react';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-@inject('store')
+@inject('appStore', 'userStore')
 @observer
 export default class BasicLayout extends React.Component {
     constructor(props, context) {
@@ -15,6 +15,7 @@ export default class BasicLayout extends React.Component {
         this.state = {
             pageLoading: true,
             collapsed: false,
+            openKeys:[],
         };
     }
 
@@ -24,9 +25,20 @@ export default class BasicLayout extends React.Component {
         });
     }
 
+    getCurrentMenuSelectedKeys(props) {
+        const { location: { pathname } } = props || this.props;
+        const keys = pathname.split('/').slice(1);
+        if (keys.length === 1 && keys[0] === '') {
+            return ['home'];
+        }
+        return keys;
+    }
+    handleOpenChange = (openKeys) => {
+        this.setState({ openKeys });
+        return;
+    }
     render() {
-        const { collapsed } = this.state;
-        console.log(this.props.store.msg);
+        const { collapsed, openKeys } = this.state;
         return (
             <div className="blank">
                 <Layout>
@@ -39,8 +51,9 @@ export default class BasicLayout extends React.Component {
                             {collapsed ? "Antd" : "Antd Logo"}
                         </div>
                         <Menu
-                            defaultOpenKeys={['home']}
-                            selectedKeys={['home']}
+                            openKeys={openKeys}
+                            onOpenChange={this.handleOpenChange}
+                            selectedKeys={this.getCurrentMenuSelectedKeys()}
                             theme="dark"
                             mode="inline"
                         >
@@ -51,6 +64,7 @@ export default class BasicLayout extends React.Component {
                                 </Link>
                             </Menu.Item>
                             <SubMenu key="demo" title={<span><Icon type="table" /><span>demo</span></span>}>
+                                <Menu.Item key="MockDataList" title="MockDataList"><Link to="/MockDataList" >MockDataList</Link></Menu.Item>
                                 <Menu.Item key="calendar" title="calendar"><Link to="/calendar" >calendar</Link></Menu.Item>
                                 <Menu.Item key="grades" title="grades"><Link to="/grades" >grades</Link></Menu.Item>
                                 <Menu.Item key="messages" title="messages"><Link to="/messages" >messages</Link></Menu.Item>
@@ -70,7 +84,13 @@ export default class BasicLayout extends React.Component {
                                 <Icon type="setting" className="top-icon" />
                                 <Icon type="share-alt" className="top-icon" />
                                 <Icon type="user" className="top-icon" />
-                                <a ><Icon type="logout" className="top-icon" /></a>
+                                {
+                                    this.props.userStore.isLogin?
+                                        <Link to="/user/logout" ><Icon type="logout" className="top-icon" /></Link>
+                                        :
+                                        <Link to="/user/login" ><Icon type="login" className="top-icon" /></Link>
+                                        
+                                }
                             </div>
                         </Header>
                         <Content className="blank-content">

@@ -4,6 +4,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { Icon } from 'antd';
 // import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
+import UserRoute from '../routes/user';
 
 const links = [{
     title: '帮助',
@@ -19,9 +20,9 @@ const links = [{
 const copyright = <div>Copyright <Icon type="copyright" /> 2017 蚂蚁金服体验技术部出品</div>;
 
 class UserLayout extends React.Component {
-    static childContextTypes = {
-        location: PropTypes.object,
-    }
+    // static childContextTypes = {
+    //     location: PropTypes.object,
+    // }
     // getChildContext() {
     //     const { location } = this.props;
     //     return { location };
@@ -39,7 +40,6 @@ class UserLayout extends React.Component {
     // }
     render() {
         // const { getRouteData } = this.props;
-
         return (
             <div >
                 <div className={styles.container}>
@@ -52,24 +52,7 @@ class UserLayout extends React.Component {
                         </div>
                         <div className={styles.desc}>Ant Design 是西湖区最具影响力的 Web 设计规范</div>
                     </div>
-                    {
-                        // getRouteData('UserLayout').map(item =>
-                        //     (
-                        //         <Route
-                        //             exact={item.exact}
-                        //             key={item.path}
-                        //             path={item.path}
-                        //             component={item.component}
-                        //         />
-                        //     )
-                        // )
-                    }
-                    <Switch>
-                        <Route path="user" component={() => <div>user</div>} />
-                        <Route path="login" component={() => <div>login</div>} />
-                        <Route path="register" component={() => <div>register</div>} />
-                        <Route path="register-result" component={() => <div>register-result</div>} />
-                    </Switch>
+                    <UserRoute />
                     {/* <GlobalFooter className={styles.footer} links={links} copyright={copyright} /> */}
                 </div>
             </div>

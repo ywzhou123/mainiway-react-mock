@@ -29,16 +29,13 @@ let config = {
     },
     module: {
         rules: [
-            {
-                enforce: "pre",
-                test: /\.(js|jsx)$/,
-                loader: "eslint-loader",
-                include: /src/,
-                exclude: excludes,
-                options: {
-                    // eslint options (if necessary)
-                }
-            },
+            // {
+            //     enforce: "pre",
+            //     test: /\.(js|jsx)$/,
+            //     loader: "eslint-loader",
+            //     include: /src/,
+            //     exclude: excludes,
+            // },
             {
                 test: /\.bundle\.(js|jsx)$/, // 通过文件名后缀自动处理需要转成bundle的文件
                 include: /src/,
@@ -64,15 +61,16 @@ let config = {
                 query: {
                     plugins: [
                         "transform-runtime",
-                        "transform-decorators-legacy"
-                        // "transform-es2015-shorthand-properties",
-                        // "transform-es3-property-literals",
-                        // "transform-es3-member-expression-literals",
+                        "transform-decorators-legacy",
+                        "transform-es2015-shorthand-properties",
+                        "transform-es3-property-literals",
+                        "transform-es3-member-expression-literals",
                     ]
                 }
             },
             {
-                test: /\.css$/,
+                test: /\.(css|scss|less)$/,
+                include: /src/,
                 exclude: excludes,
                 loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
@@ -94,56 +92,12 @@ let config = {
                                     })
                                 ]
                             }
-                        }
-                    ]
-                })
-            },
-            {
-                test: /\.scss$/,
-                exclude: excludes,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: "css-loader"
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: () => [
-                                    require("autoprefixer")({
-                                        browsers: ['last 2 versions', 'ie >= 9']
-                                    })
-                                ]
-                            }
                         },
                         {
                             loader: "sass-loader"
-                        }
-                    ]
-                })
-            },
-            {
-                test: /\.less$/,
-                exclude: excludes,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader'
                         },
                         {
-                            loader: 'postcss-loader',
-                            options: {
-                                plugins: () => [
-                                    require("autoprefixer")({
-                                        browsers: ['last 2 versions', 'ie >= 9']
-                                    })
-                                ]
-                            }
-                        },
-                        {
-                            loader: 'less-loader'
+                            loader: "less-loader"
                         }
                     ]
                 })
@@ -177,7 +131,7 @@ let config = {
             },
             publicPath,
             vendorName: Manifest.name,
-            // chunks: ['webpack-runtime', 'app', 'commons/commons'],
+            // chunks: ['manifest', 'app', 'commons/commons'],
         }),
         new CleanWebpackPlugin([
             'dist/css',
@@ -196,8 +150,9 @@ let config = {
             minChunks: 3
         }),
         new CommonsChunkPlugin({
-            name: 'webpack-runtime',
-            filename: 'scripts/webpack-runtime.[hash:8].js'
+            name: 'manifest',
+            filename: 'scripts/manifest.[hash:8].js',
+            minChunks: Infinity
         }),
         new webpack.DllReferencePlugin({
             context: __dirname,
@@ -213,18 +168,21 @@ let config = {
 
 
 const isDev = process.env.NODE_ENV === 'development';
-const isProd = process.env.NODE_ENV === 'production';
 
 if (isDev) {
     config.devtool = "inline-source-map";
-}
-if (isProd) {
+} else {
+    config.plugins.push(new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: JSON.stringify("production")
+        }
+    }));
     config.plugins.push(new UglifyJSPlugin({
         sourceMap: true
     }));
     config.plugins.push(new webpack.HashedModuleIdsPlugin());
     config.plugins.push(new HashOutput({
-        manifestFiles: 'webpack-runtime',
+        manifestFiles: 'manifest',
     }));
 }
 

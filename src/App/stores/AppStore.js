@@ -11,7 +11,7 @@ export default class AppStore {
     @observable name;
 
     @computed get msg() {
-        return this.name + ' say count is ' + this.count;
+        return `${this.name} say count is ${this.count}`; /* eslint-disable-line */
     }
 
     @action add() {
