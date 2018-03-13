@@ -15,7 +15,7 @@ export default class PurchaseComp extends React.Component {
                 dataIndex: 'title',
                 key: 'title',
                 width: '20%',
-                // render: (text, record, index) => <a onClick={() => { this.onEdit(record) }}>{text}</a>,
+                render: (text, record, index) => <a onClick={() => { this.onEdit(record) }}>{text}</a>,
             }, {
                 title: '地址',
                 dataIndex: 'url',
@@ -45,7 +45,7 @@ export default class PurchaseComp extends React.Component {
         this.store.fetchTableList();
     }
     onEdit = (record) => {
-        // store.TabsStore.tabAdd({
+        // this.store.TabsStore.tabAdd({
         //     title: 'MOCK编辑',
         //     key: 'mockform'
         // });

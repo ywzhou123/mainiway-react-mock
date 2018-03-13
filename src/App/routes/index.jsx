@@ -8,7 +8,7 @@ export default class RootRouter extends React.Component {
         return (
             <Switch>
                 <Route path="/" component={() => <div>welcome</div>} exact />
-                <AsyncRoute path="/MockDataList" component={AsyncComponent(() => import('../views/Mock/MockList'))} />
+                {/* <AsyncRoute path="/MockDataList" component={AsyncComponent(() => import('../views/Mock/MockList'))} /> */}
                 <Route path="/MockDataList" component={AsyncComponent(() => import('../views/Mock/MockList'))} />
                 <Route path="/calendar" component={AsyncComponent(() => import('../views/Calendar'))} />
                 <Route path="/grades" component={AsyncComponent(() => import('../views/Grades'))} />
