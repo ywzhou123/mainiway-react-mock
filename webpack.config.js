@@ -16,7 +16,7 @@ const excludes = [
 
 let config = {
     entry: {
-        app: path.join(__dirname, 'src/App/entry.js')
+        app: path.join(__dirname, 'src/entry.js')
     },
     output: {
         publicPath: publicPath,
@@ -116,7 +116,7 @@ let config = {
                 test: /\.(woff|woff2|svg|eot|ttf)$/,
                 exclude: excludes,
                 loader: 'url-loader?name=../fonts/[hash:8].[name].[ext]&outputPath=font/'
-            }
+            },
         ]
     },
     plugins: [
@@ -124,7 +124,7 @@ let config = {
             title: 'App',
             filename: 'index.html',
             inject: 'body',
-            template: path.join(__dirname, 'src/Public/templates/template.html'),
+            template: path.join(__dirname, 'src/templates/template.html'),
             minify: {
                 removeComents: true,
                 collapseWhitespace: true,

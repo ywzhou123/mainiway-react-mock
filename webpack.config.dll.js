@@ -13,7 +13,9 @@ const vendors = [
     'query-string',
     'prop-types',
     'antd',
-    'antd/dist/antd.min.css'
+    'antd/dist/antd.min.css',
+    './src/views/dist/jsoneditor.css',
+    './src/views/dist/jsoneditor.min.js',
 ];
 module.exports = {
     entry: {
