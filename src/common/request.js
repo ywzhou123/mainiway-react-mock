@@ -1,7 +1,7 @@
 import React from 'react';
 import { message } from 'antd';
 import { JSON2Str } from './utils';
-const prefix = 'http://localhost:8001';
+import { prefix } from '../config';
 
 const jsonHead = {
     'Accept': 'application/json',

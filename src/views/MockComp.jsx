@@ -133,6 +133,7 @@ class MockComp extends Component {
                             <Row>
                                 <Col span={2} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                     <a href='http://mockjs.com' target='_blank'>官方文档</a>
+                                    <a href={prefix} target='_blank'>后端地址</a>
                                     <Tooltip placement="right" title='"buyerTelNo": "@natural",'>自然数</Tooltip>
                                     <Tooltip placement="right" title='"classId|1": "@id()",'>数字串</Tooltip>
                                     <Tooltip placement="right" title='"companyCode|1": "@increment",'>从1开始</Tooltip>

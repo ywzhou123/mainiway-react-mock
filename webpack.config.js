@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -186,5 +187,21 @@ if (isDev) {
     }));
 }
 
+function file_content() {
+    let prefix = '', router = '';
+    if (/development/i.test(process.env.DEPLOY_ENV)) {
+        prefix = 'http://192.168.11.8:8000';
+    } else {
+        prefix = 'http://192.168.11.100:8001';
+    };
+    return [
+        `export const prefix = '${prefix}'`,
+    ].join('\r\n');
+}
+
+fs.writeFile(path.join(__dirname, "src", "config.js"),
+    file_content(),
+    { encoding: 'UTF-8' }
+);
 
 module.exports = config;
