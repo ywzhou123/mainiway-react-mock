@@ -6,3 +6,4 @@
 *debug.log*
 /manifest.json
 config.js
+sftp_production.js

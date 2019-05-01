@@ -6,6 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const HashOutput = require('webpack-plugin-hash-output');
 const CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
 const Manifest = require('./manifest.json');
