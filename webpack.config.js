@@ -111,7 +111,7 @@ let config = {
             {
                 test: /\.(png|jpg|gif)$/,
                 exclude: excludes,
-                loader: 'url-loader?name=img/[hash:8].[name].[ext]&limit=8192&outputPath=/'
+                loader: 'url-loader?name=images/[hash:8].[name].[ext]&limit=8192'
             },
             {
                 test: /\.(woff|woff2|svg|eot|ttf)$/,
@@ -122,7 +122,7 @@ let config = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            title: 'App',
+            title: 'MockServerApi',
             filename: 'index.html',
             inject: 'body',
             template: path.join(__dirname, 'src/templates/template.html'),
@@ -189,10 +189,10 @@ if (isDev) {
 
 function file_content() {
     let prefix = '', router = '';
-    if (/development/i.test(process.env.DEPLOY_ENV)) {
-        prefix = 'http://192.168.11.8:8000';
+    if (/development/i.test(process.env.NODE_ENV)) {
+        prefix = 'http://localhost:8002';
     } else {
-        prefix = 'http://192.168.11.100:8001';
+        prefix = 'http://mw.mock.server.ywzhou.shop';
     };
     return [
         `export const prefix = '${prefix}'`,

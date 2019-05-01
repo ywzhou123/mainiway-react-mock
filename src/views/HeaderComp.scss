@@ -1,0 +1,32 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // background-color: aqua;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    padding: 15px 0;
+    .logo-wrap{
+        display: flex;
+        align-items: center;
+        padding-left: 30px;
+        img{
+            width: 40px;
+            height: 40px;
+        }
+        span{
+            font-weight: bold;
+            font-size: 24px;
+            padding-left: 30px;
+        }
+    }
+    .welcome{
+        padding-right: 30px;
+        .text{
+            padding: 0 30px;
+            font-weight: bold;
+        }
+    }
+    .ant-form{
+        padding-top: 0!important;
+    }
+}

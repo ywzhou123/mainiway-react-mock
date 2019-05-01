@@ -10,6 +10,13 @@ export default class MockStore {
         sleep: 0,
         code: '',
     };
+    initUserInfo = {
+        username: '',
+        first_name: '',
+        last_name: ''
+    }
+    @observable token = ''
+    @observable userInfo = this.initUserInfo
     @observable detail = this.initDetail;
     @observable loading = false;
     @observable dataSource = [];
@@ -31,6 +38,7 @@ export default class MockStore {
                 this.dataSource = json.results;
                 this.paging = Object.assign(this.paging, { total: json.count });
             }
+            console.log(json)
             this.loading = false;
             return json;
         });
@@ -60,9 +68,33 @@ export default class MockStore {
             })
         }
     }
+    @action.bound fetchLogin(pm) {
+        this.loading = true;
+        return Fetch.auth(pm).then(json => {
+            if (json.token) {
+                this.token = json.token
+                window.localStorage.setItem('token', json.token)
+                this.fetchUserInfo()
+            }
+            this.loading = false
+            return json
+        })
+    }
+    @action.bound fetchUserInfo(token) {
+        if (token) this.token = token
+        return Fetch.userInfo().then(json => {
+            if (json.id) {
+                this.userInfo = Object.assign({}, this.userInfo, json)
+            }
+            return json
+        })
+    }
     @action clear() {
         this.detail = this.initDetail;
+        this.userInfo = this.initUserInfo
         this.loading = false;
+        this.token = ''
+        window.localStorage.setItem('token', '')
     }
     @action.bound setDetail(detail) {
         if ('url' in detail) {

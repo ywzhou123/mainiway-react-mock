@@ -1,1 +1,0 @@
-export const prefix = 'http://192.168.11.8:8000'

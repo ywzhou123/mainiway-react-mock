@@ -12,11 +12,11 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/dist'));
 app.use(favicon(path.join(__dirname, 'favicon.ico')));
 
-app.all('*', function (request, response, nextStep) {
+app.all('*', function(request, response, nextStep) {
     response.header("Access-Control-Allow-Origin", "*");
-    response.sendFile(path.resolve(__dirname, 'dist/index.html'))
+    response.sendFile(path.resolve(__dirname, 'dist/index.html'));
 });
 
 app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop!`)
+    console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop!`);
 });

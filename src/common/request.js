@@ -2,6 +2,7 @@ import React from 'react';
 import { message } from 'antd';
 import { JSON2Str } from './utils';
 import { prefix } from '../config';
+import RootStore from '../stores/index';
 
 const jsonHead = {
     'Accept': 'application/json',
@@ -11,22 +12,23 @@ const jsonHead = {
 const put = (pm) => ({
     method: "PUT",
     credentials: "same-origin",
-    headers: Object.assign({}, jsonHead),
-    body: JSON.stringify(pm),
+    headers: Object.assign({}, jsonHead, pm.header),
+    body: JSON.stringify(pm.pm),
 });
 
 const post = (pm) => ({
     method: "POST",
-    // mode: "cors",
+    mode: "cors",
     credentials: "same-origin",
-    headers: Object.assign({}, jsonHead),
-    body: JSON.stringify(pm),
+    headers: Object.assign({}, jsonHead, pm.header),
+    body: JSON.stringify(pm.pm),
 });
 
-const get = () => ({
-    credentials: "same-origin",
-    headers: Object.assign({}, jsonHead),
+const get = (pm) => ({
     method: 'GET',
+    mode: "cors",
+    credentials: "same-origin",
+    headers: Object.assign({}, jsonHead, pm.header),
 });
 
 const handlerReq = (req) => {
@@ -37,14 +39,21 @@ const handlerReq = (req) => {
 
 const ReqApi = {
     get(pm) {
+        const { mockStore: { token }} = RootStore
+        if (token && !pm.noToken) pm.header = { Authorization: 'Token ' + token }
         pm.url = `${pm.url}?${JSON2Str(pm.pm)}`;
-        return handlerReq(fetch(pm.url, get()));
+        return handlerReq(fetch(pm.url, get(pm)));
     },
     post(pm) {
-        return handlerReq(fetch(pm.url, post(pm.pm)));
+        const { mockStore: { token }} = RootStore
+        console.log(pm)
+        if (token && !pm.noToken) pm.header = { Authorization: 'Token ' + token }
+        return handlerReq(fetch(pm.url, post(pm)));
     },
     put(pm) {
-        return handlerReq(fetch(pm.url, put(pm.pm)));
+        const { mockStore: { token }} = RootStore
+        if (token && !pm.noToken) pm.header = { Authorization: 'Token ' + token }
+        return handlerReq(fetch(pm.url, put(pm)));
     },
 };
 
