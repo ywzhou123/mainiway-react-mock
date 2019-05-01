@@ -5,9 +5,9 @@
 
 (demo)[http://mw.mock.ywzhou.shop]
 
-![](https://raw.githubusercontent.com/ywzhou123/mainiway-react-mock/demo/mock_demo_index.png)
+![](https://raw.githubusercontent.com/ywzhou123/mainiway-react-mock/master/demo/mock_demo_index.png)
 
-![](https://raw.githubusercontent.com/ywzhou123/mainiway-react-mock/demo/mock_demo_api.png)
+![](https://raw.githubusercontent.com/ywzhou123/mainiway-react-mock/master/demo/mock_demo_api.png)
 
 # 安装
 
