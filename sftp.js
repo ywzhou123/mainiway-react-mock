@@ -1,5 +1,5 @@
-var ip = '192.168.11.8',
-    arrive = "/opt/mockweb",
+var ip = '192.168.0.7',
+    arrive = "/docker/MockServer/web",
     EasyFtp = require('easy-ftp'),
     path = require("path"),
     ftp = new EasyFtp(),
@@ -8,7 +8,7 @@ var ip = '192.168.11.8',
         port: 22,
         type: 'sftp',
         username: 'root',
-        password: 'youshiker'
+        password: 'jeecms@123'
     },
     dir = path.join(__dirname, "dist/**");
 ftp.connect(config);

@@ -54,7 +54,7 @@ class MockComp extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        const { form: { validateFields }, mockStore: { setDetail, fetchSubmit }} = this.props;
+        const { form: { validateFields }, mockStore: { setDetail, fetchSubmit, fetchList }} = this.props;
         const code = this.jsonEditor.getJson();
         if (code) {
             validateFields((err, values) => {
@@ -63,6 +63,8 @@ class MockComp extends Component {
                     fetchSubmit().then(json => {
                         if (json.id) {
                             message.success("保存成功！");
+                            setDetail({ id: json.id });
+                            fetchList(); 
                         } else {
                             message.error(Object.values(json));
                         }

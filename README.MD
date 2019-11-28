@@ -35,3 +35,8 @@
 ```
     npm run upload
 ```
+
+# BUG
+在node 10以上版本打包会有问题
+nvm list
+nvm use v7.4.0

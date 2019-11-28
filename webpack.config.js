@@ -193,7 +193,7 @@ function file_content() {
     if (/development/i.test(process.env.NODE_ENV)) {
         prefix = 'http://localhost:8002';
     } else {
-        prefix = 'http://mw.mock.server.ywzhou.shop';
+        prefix = 'http://192.168.0.7:8004';
     };
     return [
         `export const prefix = '${prefix}'`,
@@ -202,7 +202,8 @@ function file_content() {
 
 fs.writeFile(path.join(__dirname, "src", "config.js"),
     file_content(),
-    { encoding: 'UTF-8' }
+    { encoding: 'UTF-8' },
+    function () {}
 );
 
 module.exports = config;
