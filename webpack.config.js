@@ -191,9 +191,9 @@ if (isDev) {
 function file_content() {
     let prefix = '', router = '';
     if (/development/i.test(process.env.NODE_ENV)) {
-        prefix = 'http://localhost:8002';
+        prefix = 'http://localhost:8000';
     } else {
-        prefix = 'http://192.168.0.7:8004';
+        prefix = 'http://localhost:8004';
     };
     return [
         `export const prefix = '${prefix}'`,

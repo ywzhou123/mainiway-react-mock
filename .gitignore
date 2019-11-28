@@ -2,7 +2,6 @@
 .idea/
 .DS_Store/
 /node_modules/
-/dist/
 *debug.log*
 /manifest.json
 config.js
