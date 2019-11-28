@@ -193,7 +193,7 @@ function file_content() {
     if (/development/i.test(process.env.NODE_ENV)) {
         prefix = 'http://localhost:8000';
     } else {
-        prefix = 'http://localhost:8004';
+        prefix = 'http://mockserver.ywzhou.shop';
     };
     return [
         `export const prefix = '${prefix}'`,
