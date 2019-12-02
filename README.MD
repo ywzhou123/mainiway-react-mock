@@ -13,10 +13,17 @@
 ```
     npm install
 ```
+# 配置
+
+```
+    webpack.config.js 修改后端接口地址 prefix，即django后端服务的接口，默认8000；
+    server.js 启动的是node web服务，默认9999端口
+```
 
 # 开发
 
 ```
+    nvm use 7.4.0
     npm run watch
     npm run start
 ```
@@ -26,6 +33,11 @@
 ```
     npm run build:dll
     npm run build
+```
+# 访问
+
+```
+    http://localhost:9999
 ```
 
 # 上传

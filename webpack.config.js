@@ -191,7 +191,7 @@ if (isDev) {
 function file_content() {
     let prefix = '', router = '';
     if (/development/i.test(process.env.NODE_ENV)) {
-        prefix = 'http://localhost:8000';
+        prefix = 'http://localhost:8003';
     } else {
         prefix = 'http://mockserver.ywzhou.shop';
     };
